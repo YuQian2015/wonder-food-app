@@ -5,6 +5,7 @@ import UserList from './components/UserList.vue'
 import LoginPage from './components/LoginPage.vue'
 import Posts from './components/Posts.vue'
 import NewPost from './components/NewPost.vue'
+import Me from './components/Me.vue'
 
 Vue.use(VueRouter)
 
@@ -29,6 +30,11 @@ const routes = [
         path: '/post',
         name: 'post',
         component: NewPost
+    },
+    {
+        path: '/me',
+        name: 'me',
+        component: Me
     }
 ]
 

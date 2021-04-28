@@ -1,12 +1,14 @@
 <template>
   <div>
     <van-nav-bar title="登录" />
-    <van-image
-      width="100"
-      height="100"
-      round
-      style="margin: 20px;"
-    />
+    <div style="text-align: center">
+      <van-image
+        width="100"
+        height="100"
+        round
+        style="margin: 20px"
+      />
+    </div>
     <van-form>
       <van-field
         v-model="data.email"

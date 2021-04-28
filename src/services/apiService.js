@@ -21,9 +21,12 @@ const ApiService = {
 
     async getPosts(data) {
         return HttpService.get(`${apiConfig.baseUrl}/api/posts`, data);
+    },
+
+    async uploadImage(data) {
+        return HttpService.upload(`${apiConfig.baseUrl}/api/upload/image`, data);
     }
 
-    
 }
 
 export default ApiService;
