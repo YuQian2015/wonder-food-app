@@ -27,6 +27,10 @@ const ApiService = {
         return HttpService.get(`${apiConfig.baseUrl}/api/posts/${id}`);
     },
 
+    async createComment(data) {
+        return HttpService.post(`${apiConfig.baseUrl}/api/comments`, data);
+    },
+
     async uploadImage(data) {
         return HttpService.upload(`${apiConfig.baseUrl}/api/upload/image`, data);
     }

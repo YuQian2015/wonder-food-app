@@ -1,21 +1,21 @@
 <template>
   <div class="post-item">
     <div class="post-card">
-      <div class="user-info">
+      <div class="user-info" @click="goComment(postData.id)">
         <div class="avatar" v-if="postData.user">
           <van-image
             width="40"
             height="40"
             round
-            v-bind:src="postData.user.avatar_url || 'https://img.yzcdn.cn/vant/cat.jpeg'"
+            :src="postData.user.avatar_url || 'https://img.yzcdn.cn/vant/cat.jpeg'"
           />
         </div>
         <div class="base-info">
           <div class="user-name" v-if="postData.user">{{postData.user.name}}</div>
-          <div class="create-date">{{ formNow(postData.createAt) }} <van-tag v-if="postData.type === 0" round plain type="warning">求推荐</van-tag><van-tag round plain v-if="postData.type === 1" type="primary">推荐</van-tag></div>
+          <div class="create-date">{{ formNow(postData.created_at) }} <van-tag v-if="postData.type === 0" round plain type="warning">求推荐</van-tag><van-tag round plain v-if="postData.type === 1" type="primary">推荐</van-tag></div>
         </div>
       </div>
-      <div class="content">
+      <div class="content" @click="goComment(postData.id)">
         {{ postData.content }}
       </div>
       
@@ -34,9 +34,9 @@
       </div>
       <div v-if="!hideActions" class="action">
         <!-- <div class="action-item"><van-icon name="eye-o" /><span class="text">{{postData.view_count}} 查看</span></div> -->
-        <div class="action-item" style="flex: 3"></div>
-        <div class="action-item" @click="goComment(postData.id)"><van-icon name="chat-o" /><span class="text">{{postData.comment_count}} 评论</span></div>
+        <div class="action-item" @click="goComment(postData.id)"><van-icon name="chat-o" /><span class="text">{{postData.comment_count}} 推荐</span></div>
         <!-- <div class="action-item"><van-icon name="good-job-o" /><span class="text">{{postData.like_count}}</span></div> -->
+        <div class="action-item" style="flex: 3"></div>
       </div>
     </div>
   </div>
@@ -94,6 +94,7 @@ export default {
 .content {
   word-break: break-all;
   padding: 0 10px;
+  padding-bottom: 10px;
 }
 .action {
   display: flex;

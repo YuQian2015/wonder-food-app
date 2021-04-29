@@ -7,6 +7,8 @@
       left-arrow
       @click-left="onClickLeft"
       @click-right="submit"
+      fixed
+      placeholder
     />
     <van-field
       v-model="content"

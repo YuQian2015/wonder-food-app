@@ -5,8 +5,18 @@
       left-arrow
       @click-left="onClickLeft"
       :title="postData.content"
+      fixed
+      placeholder
     />
     <PostItem :post-data="postData" :hide-actions="true" />
+    <div v-if="postData.comments && postData.comments.length">
+      <CommentItem
+        v-for="comment in postData.comments"
+        :key="comment.id"
+        :data="comment"
+      />
+    </div>
+    <van-tabbar z-index="0" placeholder></van-tabbar>
     <div class="bottom-input">
       <van-field
         style="max-height: 200px"
@@ -18,12 +28,12 @@
         show-word-limit
         placeholder="请输入你的回复"
       />
-      <van-button
+      <!-- <van-button
         style="margin: 0 2px"
         round
         size="small"
         icon="photo-o"
-      ></van-button>
+      ></van-button> -->
       <van-button
         style="margin: 0 2px"
         round
@@ -35,6 +45,7 @@
         type="primary"
         style="margin: 0 2px; white-space: nowrap"
         size="small"
+        @click="submit()"
         >发布</van-button
       >
     </div>
@@ -43,6 +54,7 @@
 <script>
 import { apiService } from "../services";
 import PostItem from "./PostItem.vue";
+import CommentItem from "./CommentItem.vue";
 export default {
   data() {
     return {
@@ -52,6 +64,7 @@ export default {
   },
   components: {
     PostItem,
+    CommentItem,
   },
   methods: {
     async getPost(id) {
@@ -62,6 +75,20 @@ export default {
     },
     onClickLeft() {
       this.$router.back();
+    },
+    async submit() {
+      if (!this.message) {
+        this.$toast("请输入内容！");
+        return;
+      }
+      const res = await apiService.createComment({
+        post_id: this.$router.currentRoute.params.id,
+        content: this.message,
+      });
+      if (res && res.success) {
+        this.getPost(this.$router.currentRoute.params.id);
+        this.message = "";
+      }
     },
   },
   mounted() {
