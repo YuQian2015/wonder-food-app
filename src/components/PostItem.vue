@@ -19,13 +19,15 @@
         {{ postData.content }}
       </div>
       
-      <div class="images">
-        <van-grid clickable square :column-num="3">
-          <van-grid-item>
+      <div class="images" v-if="postData.images" >
+        <van-grid center :gutter="10" square :border="false" :column-num="3">
+          <van-grid-item @click="showImage(index)" v-for="(image, index) in postData.images.split(';')" :key="index">
             <van-image
+              fit="cover"
               width="100%"
               height="100%"
-              src="https://img.yzcdn.cn/vant/cat.jpeg"
+              :src="image"
+              style="position: absolute;"
             />
           </van-grid-item>
         </van-grid>
@@ -39,6 +41,7 @@
   </div>
 </template>
 <script>
+import { ImagePreview } from 'vant';
 import { formNow } from "../utils";
 export default {
   props: {
@@ -46,6 +49,12 @@ export default {
   },
   methods: {
     formNow,
+    showImage(index){
+      const images = this.postData.images.split(';');
+      ImagePreview({
+        images, startPosition: index,
+      });
+    }
   },
   mounted() {},
 };
@@ -76,7 +85,7 @@ export default {
 }
 .content {
   word-break: break-all;
-  padding: 10px;
+  padding: 0 10px;
 }
 .action {
   display: flex;
@@ -93,8 +102,5 @@ export default {
 .text {
   margin-left: 4px;
   font-size: 12px;
-}
-.images {
-  padding: 0 10px;
 }
 </style>

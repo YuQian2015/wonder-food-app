@@ -26,34 +26,58 @@
 </template>
 <script>
 import Compressor from "compressorjs";
+import localForage from "localforage";
 import { apiService } from "../services";
 export default {
   data() {
     return {
       content: "",
       fileList: [],
+      uploadedImages: [],
+      uploadIndex: 0,
     };
   },
   methods: {
     async submit() {
       if (this.fileList.length) {
-        console.log(this.fileList[0]);
-        const form = new FormData();
-        form.append(
-          "file",
-          this.fileList[0].file,
-          new Date().getTime() + "." + this.fileList[0].file.type.split("/")[1]
-        );
-        const res = await apiService.uploadImage(form);
-        console.log(res);
-        return;
+        this.uploadedImages.length = 0;
+        this.uploadIndex = 0;
       }
+      await this.doUpload();
       const res = await apiService.createPost({
         content: this.content,
+        images: this.uploadedImages.join(";"),
       });
       if (res && res.success) {
         this.$toast("发布成功！");
         this.$router.back();
+      }
+    },
+
+    async doUpload() {
+      const file = this.fileList[this.uploadIndex];
+      if (file) {
+        file.status = "uploading";
+        file.message = "上传中...";
+        const form = new FormData();
+        form.append(
+          "file",
+          file.file,
+          new Date().getTime() + "." + file.file.type.split("/")[1]
+        );
+        const res = await apiService.uploadImage(form);
+        this.uploadIndex++;
+        if (res && res.success) {
+          this.uploadedImages.push(res.data.url);
+          file.status = "done ";
+          file.message = "上传完成";
+          await this.doUpload();
+        } else {
+          file.status = "failed";
+          file.message = "上传失败";
+        }
+      } else {
+        return;
       }
     },
 
@@ -78,6 +102,12 @@ export default {
     onClickLeft() {
       this.$router.back();
     },
+  },
+  async mounted() {
+    const token = await localForage.getItem("token");
+    if (!token) {
+      this.$router.replace("login");
+    }
   },
 };
 </script>
