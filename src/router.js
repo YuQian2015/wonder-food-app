@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import UserList from './components/UserList.vue'
 import LoginPage from './components/LoginPage.vue'
 import Posts from './components/Posts.vue'
 import NewPost from './components/NewPost.vue'
@@ -15,11 +14,6 @@ const routes = [
         path: '/login',
         name: 'login-page',
         component: LoginPage
-    },
-    {
-        path: '/users',
-        name: 'user-list',
-        component: UserList
     },
     {
         path: '/index',

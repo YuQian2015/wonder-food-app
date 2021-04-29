@@ -20,7 +20,7 @@ const ApiService = {
     },
 
     async getPosts(data) {
-        return HttpService.get(`${apiConfig.baseUrl}/api/posts`, data);
+        return HttpService.get(`${apiConfig.baseUrl}/api/public/posts`, data);
     },
 
     async uploadImage(data) {

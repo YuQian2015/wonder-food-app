@@ -78,9 +78,8 @@ export default {
         ? await apiService.register(this.data)
         : await apiService.login(this.data);
       if (res && res.success && res.data) {
-        console.log(res.data.token);
         await localforage.setItem("token", res.data.token);
-        this.$router.replace("/users");
+        this.$router.replace("/");
       } else {
         this.$toast(res.message);
       }
