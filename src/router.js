@@ -5,6 +5,7 @@ import LoginPage from './components/LoginPage.vue'
 import Posts from './components/Posts.vue'
 import NewPost from './components/NewPost.vue'
 import Me from './components/Me.vue'
+import Comment from './components/Comment.vue'
 
 Vue.use(VueRouter)
 
@@ -29,6 +30,11 @@ const routes = [
         path: '/me',
         name: 'me',
         component: Me
+    },
+    {
+        path: '/comment/:id',
+        name: 'comment',
+        component: Comment
     }
 ]
 

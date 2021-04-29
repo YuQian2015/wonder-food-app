@@ -32,10 +32,11 @@
           </van-grid-item>
         </van-grid>
       </div>
-      <div class="action">
-        <div class="action-item"><van-icon name="eye-o" /><span class="text">{{postData.view_count}} 查看</span></div>
-        <div class="action-item"><van-icon name="chat-o" /><span class="text">{{postData.comment_count}} 评论</span></div>
-        <div class="action-item"><van-icon name="good-job-o" /><span class="text">{{postData.like_count}} 推荐</span></div>
+      <div v-if="!hideActions" class="action">
+        <!-- <div class="action-item"><van-icon name="eye-o" /><span class="text">{{postData.view_count}} 查看</span></div> -->
+        <div class="action-item" style="flex: 3"></div>
+        <div class="action-item" @click="goComment(postData.id)"><van-icon name="chat-o" /><span class="text">{{postData.comment_count}} 评论</span></div>
+        <!-- <div class="action-item"><van-icon name="good-job-o" /><span class="text">{{postData.like_count}}</span></div> -->
       </div>
     </div>
   </div>
@@ -46,6 +47,7 @@ import { formNow } from "../utils";
 export default {
   props: {
     postData: Object,
+    hideActions: Boolean
   },
   methods: {
     formNow,
@@ -53,6 +55,12 @@ export default {
       const images = this.postData.images.split(';');
       ImagePreview({
         images, startPosition: index,
+      });
+    },
+    goComment(id) {
+      this.$router.push({
+        name: 'comment',
+        params: { id }
       });
     }
   },

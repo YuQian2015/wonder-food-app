@@ -14,6 +14,8 @@
       autosize
       type="textarea"
       placeholder="说点什么"
+      maxlength="500"
+      show-word-limit
     />
     <van-uploader
       v-model="fileList"
