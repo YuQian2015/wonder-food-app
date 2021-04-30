@@ -27,7 +27,6 @@ const ApiService = {
         return HttpService.get(`${apiConfig.baseUrl}/api/posts/${id}`);
     },
 
-
     async createComment(data) {
         return HttpService.post(`${apiConfig.baseUrl}/api/comments`, data);
     },
@@ -38,8 +37,11 @@ const ApiService = {
 
     async uploadImage(data) {
         return HttpService.upload(`${apiConfig.baseUrl}/api/upload/image`, data);
-    }
+    },
 
+    async getStores() {
+        return HttpService.get(`${apiConfig.baseUrl}/api/stores`);
+    },
 }
 
 export default ApiService;

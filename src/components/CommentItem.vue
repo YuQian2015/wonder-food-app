@@ -16,11 +16,18 @@
       </div>
     </div>
     <div class="content">{{ data.content }}</div>
+    <div style="background: #d7e8d4;">
+      <StoreItem v-if="data.store" :data="data.store" />
+    </div>
   </div>
 </template>
 <script>
 import { formNow } from "../utils";
+import StoreItem from "./StoreItem";
 export default {
+  components: {
+    StoreItem,
+  },
   props: {
     data: Object,
   },
@@ -32,7 +39,7 @@ export default {
 <style scoped>
 .comment-card {
   padding: 10px;
-  border-top: solid 1px #EEEEEE;
+  border-top: solid 1px #eeeeee;
 }
 .avatar {
   margin-right: 10px;
