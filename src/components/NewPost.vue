@@ -24,6 +24,7 @@
       :before-read="beforeRead"
       :after-read="afterRead"
       max-count="9"
+      :preview-options="{closeable: true}"
     >
     </van-uploader>
   </div>

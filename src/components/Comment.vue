@@ -8,10 +8,10 @@
       fixed
       placeholder
     />
-    <PostItem :post-data="postData" :hide-actions="true" />
-    <div v-if="postData.comments && postData.comments.length">
+    <PostItem :post-data="postData" :disable-actions="true" />
+    <div v-if="comments && comments.length">
       <CommentItem
-        v-for="comment in postData.comments"
+        v-for="comment in comments"
         :key="comment.id"
         :data="comment"
       />
@@ -59,6 +59,7 @@ export default {
   data() {
     return {
       postData: {},
+      comments: [],
       message: "",
     };
   },
@@ -86,13 +87,21 @@ export default {
         content: this.message,
       });
       if (res && res.success) {
-        this.getPost(this.$router.currentRoute.params.id);
         this.message = "";
+        this.getPost(this.$router.currentRoute.params.id);
+        this.getComments(this.$router.currentRoute.params.id);
+      }
+    },
+    async getComments(id) {
+      const res = await apiService.getComment(id);
+      if (res && res.success) {
+        this.comments = res.data;
       }
     },
   },
   mounted() {
     this.getPost(this.$router.currentRoute.params.id);
+    this.getComments(this.$router.currentRoute.params.id);
   },
 };
 </script>
