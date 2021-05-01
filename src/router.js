@@ -6,6 +6,7 @@ import Posts from './components/Posts.vue'
 import NewPost from './components/NewPost.vue'
 import Me from './components/Me.vue'
 import Comment from './components/Comment.vue'
+import User from './components/User.vue'
 
 Vue.use(VueRouter)
 
@@ -35,7 +36,13 @@ const routes = [
         path: '/comment/:id',
         name: 'comment',
         component: Comment
+    },
+    {
+        path: '/user/:id',
+        name: 'user',
+        component: User
     }
+
 ]
 
 export default new VueRouter({
