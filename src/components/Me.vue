@@ -2,7 +2,7 @@
   <div>
     <van-nav-bar title="我的" />
     <div style="text-align: center; margin: 20px 0">
-      <van-image @click="goUserPage" width="100" height="100" round style="" />
+      <van-image @click="goUserPage" width="80" height="80" round :src="userInfo && userInfo.avatar_url" />
       <div v-if="userInfo">{{ userInfo.name }}</div>
     </div>
     <van-cell-group>
@@ -10,9 +10,10 @@
       <van-cell title="版本" value="v1.0.0" />
       <van-cell title="说明" is-link />
     </van-cell-group>
-    <van-cell-group title="登录">
+    <van-cell-group v-if="!userInfo" title="登录">
       <van-cell title="立即登录" is-link to="login" />
     </van-cell-group>
+    <van-button style="margin-top: 80px;" v-if="userInfo" block type="danger">退出登录</van-button>
     <Tab />
   </div>
 </template>

@@ -10,6 +10,10 @@ const ApiService = {
         return HttpService.get(`${apiConfig.baseUrl}/api/users/info`);
     },
 
+    async updateUserInfo(data) {
+        return HttpService.put(`${apiConfig.baseUrl}/api/users/info`, data);
+    },
+
     async register(data) {
         return HttpService.post(`${apiConfig.baseUrl}/api/public/register`, data);
     },
