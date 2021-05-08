@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vant from 'vant';
 import VueRouter from 'vue-router';
-import 'element-ui/lib/theme-chalk/index.css';
 import 'vant/lib/index.css';
 import App from './App.vue';
 import router from './router';
