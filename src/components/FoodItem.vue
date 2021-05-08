@@ -20,7 +20,7 @@ export default {
     data: Object,
     showRemove: Boolean,
     onRemove: Function,
-  }
+  },
 };
 </script>
 

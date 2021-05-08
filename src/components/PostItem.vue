@@ -33,7 +33,7 @@
         </van-grid>
       </div>
       <div class="action">
-        <div class="action-item"><van-icon name="eye-o" /><span class="text">{{postData.view_count}} 查看</span></div>
+        <div class="action-item"><van-icon name="eye-o" /><span class="text">{{postData.view_count}}</span></div>
         <div class="action-item" @click="goComment(postData.id)"><van-icon name="chat-o" /><span class="text">{{postData.comment_count}} 推荐</span></div>
         <!-- <div class="action-item"><van-icon name="good-job-o" /><span class="text">{{postData.like_count}}</span></div> -->
         <div class="action-item" style="flex: 3"></div>

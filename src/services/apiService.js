@@ -42,6 +42,10 @@ const ApiService = {
     async getStores() {
         return HttpService.get(`${apiConfig.baseUrl}/api/stores`);
     },
+
+    async getFoods() {
+        return HttpService.get(`${apiConfig.baseUrl}/api/products`);
+    },
 }
 
 export default ApiService;

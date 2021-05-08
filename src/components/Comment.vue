@@ -32,6 +32,16 @@
           :key="store.id"
           :data="store"
           :show-remove="true"
+          :on-remove="handleRemove"
+        />
+      </div>
+      <div v-if="selectedFoods && selectedFoods.length">
+        <FoodItem
+          v-for="store in selectedFoods"
+          :key="store.id"
+          :data="store"
+          :show-remove="true"
+          :on-remove="handleRemove"
         />
       </div>
       <div class="input-container">
@@ -76,6 +86,7 @@ import PostItem from "./PostItem.vue";
 import CommentItem from "./CommentItem.vue";
 import Stores from "./Stores.vue";
 import StoreItem from "./StoreItem";
+import FoodItem from "./FoodItem";
 
 export default {
   data() {
@@ -85,6 +96,7 @@ export default {
       comments: [],
       message: "",
       selectedStores: [],
+      selectedFoods: [],
     };
   },
   components: {
@@ -92,6 +104,7 @@ export default {
     CommentItem,
     Stores,
     StoreItem,
+    FoodItem,
   },
   methods: {
     async getPost(id) {
@@ -100,16 +113,26 @@ export default {
         this.postData = res.data;
       }
     },
+    handleRemove() {
+      this.selectedStores.pop();
+      this.selectedFoods.pop();
+    },
     onClickLeft() {
       this.$router.back();
     },
     showPopup() {
       this.show = true;
     },
-    handleConfirmed(store) {
-      this.selectedStores.length = 0;
-      this.selectedStores.push(store);
-      this.show = false;
+    handleConfirmed(data, type) {
+      if (type === "store") {
+        this.selectedStores.length = 0;
+        this.selectedStores.push(data);
+        this.show = false;
+      } else {
+        this.selectedFoods.length = 0;
+        this.selectedFoods.push(data);
+        this.show = false;
+      }
     },
     async submit() {
       if (!this.message) {
@@ -122,6 +145,9 @@ export default {
       };
       if (this.selectedStores && this.selectedStores.length) {
         data.store_id = this.selectedStores[0].id;
+      }
+      if (this.selectedFoods && this.selectedFoods.length) {
+        data.product_id = this.selectedFoods[0].id;
       }
       const res = await apiService.createComment(data);
       if (res && res.success) {

@@ -16,17 +16,22 @@
       </div>
     </div>
     <div class="content">{{ data.content }}</div>
-    <div style="background: #d7e8d4;">
+    <div style="background: #d7e8d4">
       <StoreItem v-if="data.store" :data="data.store" />
+    </div>
+    <div style="background: #f3eda4">
+      <FoodItem v-if="data.product" :data="data.product" />
     </div>
   </div>
 </template>
 <script>
 import { formNow } from "../utils";
 import StoreItem from "./StoreItem";
+import FoodItem from "./FoodItem";
 export default {
   components: {
     StoreItem,
+    FoodItem,
   },
   props: {
     data: Object,
@@ -62,7 +67,7 @@ export default {
 }
 .content {
   word-break: break-all;
-  padding: 0 10px;
+  padding: 10px;
   padding-bottom: 10px;
 }
 </style>
