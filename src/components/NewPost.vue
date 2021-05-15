@@ -1,7 +1,7 @@
 <template>
   <div>
     <van-nav-bar
-      title="标题"
+      :title="type == 0 ? '发布揾食' : '发布推荐'"
       left-text="返回"
       right-text="发布"
       left-arrow
@@ -24,7 +24,7 @@
       :before-read="beforeRead"
       :after-read="afterRead"
       max-count="9"
-      :preview-options="{closeable: true}"
+      :preview-options="{ closeable: true }"
     >
     </van-uploader>
   </div>
@@ -38,19 +38,26 @@ export default {
     return {
       content: "",
       fileList: [],
+      type: 0,
       uploadedImages: [],
       uploadIndex: 0,
     };
   },
   methods: {
     async submit() {
+      if (!this.content) {
+        this.$toast("请输入帖子内容！");
+        return;
+      }
       if (this.fileList.length) {
         this.uploadedImages.length = 0;
         this.uploadIndex = 0;
+        await this.doUpload();
       }
-      await this.doUpload();
+
       const res = await apiService.createPost({
         content: this.content,
+        type: this.$router.currentRoute.params.type,
         images: this.uploadedImages.join(";"),
       });
       if (res && res.success) {
@@ -110,6 +117,7 @@ export default {
   },
   async mounted() {
     const token = await localForage.getItem("token");
+    this.type = this.$router.currentRoute.params.type;
     if (!token) {
       this.$router.replace("login");
     }

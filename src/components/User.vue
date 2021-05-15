@@ -8,6 +8,12 @@
       left-arrow
       @click-left="onClickLeft"
     ></van-nav-bar>
+    <van-action-sheet
+      v-model="show"
+      :actions="actions"
+      @select="onSelect"
+      description="选择性别"
+    />
     <van-cell-group v-if="userInfo" title="个人信息">
       <van-cell title="头像" center is-link :value="userInfo.avatar_url">
         <template #default>
@@ -27,11 +33,16 @@
           />
         </template>
       </van-cell>
-      <van-cell title="名称" :value="userInfo.name" />
-      <van-cell title="年龄" :value="userInfo.age" />
+      <van-cell title="名字" :value="userInfo.name" />
+      <van-cell
+        title="性别"
+        :value="userInfo.gender"
+        is-link
+        @click="show = true"
+      />
       <van-cell title="邮箱" :value="userInfo.email" />
-      <van-cell title="性别" :value="userInfo.gender" />
-      <van-cell title="角色" :value="userInfo.role" />
+      <!-- <van-cell title="年龄" :value="userInfo.age" />
+      <van-cell title="角色" :value="userInfo.role" /> -->
     </van-cell-group>
   </div>
 </template>
@@ -42,6 +53,8 @@ export default {
     return {
       userInfo: null,
       fileList: [],
+      show: false,
+      actions: [{ name: "男" }, { name: "女" }],
     };
   },
   methods: {
@@ -50,6 +63,13 @@ export default {
     },
     onClickLeft() {
       this.$router.back();
+    },
+    async onSelect(e) {
+      await apiService.updateUserInfo({
+        gender: e.name,
+      });
+      this.userInfo.gender = e.name;
+      this.show = false;
     },
     async doUpload(file) {
       if (file) {

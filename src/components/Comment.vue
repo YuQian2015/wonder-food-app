@@ -152,6 +152,8 @@ export default {
       const res = await apiService.createComment(data);
       if (res && res.success) {
         this.message = "";
+        this.selectedFoods.pop();
+        this.selectedStores.pop();
         this.getPost(this.$router.currentRoute.params.id);
         this.getComments(this.$router.currentRoute.params.id);
       }

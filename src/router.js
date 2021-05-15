@@ -23,8 +23,8 @@ const routes = [
         component: Posts
     },
     {
-        path: '/post',
-        name: 'post',
+        path: '/new/:type',
+        name: 'new',
         component: NewPost
     },
     {
@@ -33,8 +33,8 @@ const routes = [
         component: Me
     },
     {
-        path: '/comment/:id',
-        name: 'comment',
+        path: '/post/:id',
+        name: 'post',
         component: Comment
     },
     {

@@ -2,7 +2,13 @@
   <div>
     <van-nav-bar title="我的" />
     <div style="text-align: center; margin: 20px 0">
-      <van-image @click="goUserPage" width="80" height="80" round :src="userInfo && userInfo.avatar_url" />
+      <van-image
+        @click="goUserPage"
+        width="80"
+        height="80"
+        round
+        :src="userInfo && userInfo.avatar_url"
+      />
       <div v-if="userInfo">{{ userInfo.name }}</div>
     </div>
     <van-cell-group>
@@ -13,13 +19,21 @@
     <van-cell-group v-if="!userInfo" title="登录">
       <van-cell title="立即登录" is-link to="login" />
     </van-cell-group>
-    <van-button style="margin-top: 80px;" v-if="userInfo" block type="danger">退出登录</van-button>
+    <van-button
+      style="margin-top: 80px"
+      v-if="userInfo"
+      block
+      type="danger"
+      @click="logout"
+      >退出登录</van-button
+    >
     <Tab />
   </div>
 </template>
 <script>
 import { apiService } from "../services";
 import Tab from "./Tab.vue";
+import localforage from "localforage";
 export default {
   data() {
     return {
@@ -34,6 +48,10 @@ export default {
           params: { id: this.userInfo.id },
         });
       }
+    },
+    async logout() {
+      await localforage.removeItem("token");
+      this.$router.replace("index");
     },
   },
   components: {

@@ -45,8 +45,12 @@ export default {
     };
   },
   methods: {
-    goNewPost() {
-      this.$router.push("/post");
+    goNewPost(type) {
+      console.log(type);
+      this.$router.push({
+        name: 'new',
+        params: { type }
+      });
     },
 
     async getData() {
@@ -60,9 +64,10 @@ export default {
 
     onSelect(option) {
       if(option.icon === 'wechat-moments') {
-        this.goNewPost();
-      } else {
-        this.goNewPost();
+        this.goNewPost(0);
+      }
+      if(option.icon === 'link') {
+        this.goNewPost(1);
       }
       this.showShare = false;
     },

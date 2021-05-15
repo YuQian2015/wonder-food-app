@@ -63,7 +63,7 @@ export default {
         return;
       }
       this.$router.push({
-        name: 'comment',
+        name: 'post',
         params: { id }
       });
     }
