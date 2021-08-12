@@ -47,6 +47,7 @@
 </template>
 <script>
 import localforage from "localforage";
+import md5 from "md5";
 import { apiService } from "../services";
 export default {
   data() {
@@ -74,9 +75,14 @@ export default {
         this.$toast('请填入必填信息！');
         return;
       }
+      
       let res = this.showCreateForm
-        ? await apiService.register(this.data)
-        : await apiService.login(this.data);
+        ? await apiService.register({
+          name: this.data.name, email: this.data.email, password: md5(this.data.password)
+        })
+        : await apiService.login({
+          email: this.data.email, password: md5(this.data.password)
+        });
       if (res && res.success && res.data) {
         await localforage.setItem("token", res.data.token);
         this.$router.replace("/");
