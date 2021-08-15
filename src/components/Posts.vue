@@ -1,10 +1,9 @@
 <template>
   <div>
-    <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
-      <van-swipe-item>1</van-swipe-item>
-      <van-swipe-item>2</van-swipe-item>
-      <van-swipe-item>3</van-swipe-item>
-      <van-swipe-item>4</van-swipe-item>
+    <van-swipe v-if="banners && banners.length" :autoplay="3000" indicator-color="white">
+      <van-swipe-item v-for="banner in banners" :key="banner.url">
+        <van-image width="100%" :src="banner.url" />
+      </van-swipe-item>
     </van-swipe>
     <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
       <van-list v-if="posts && posts.length" finished-text="没有更多了">
@@ -36,6 +35,7 @@ export default {
   data() {
     return {
       posts: [],
+      banners: [],
       refreshing: false,
       showShare: false,
       options: [
@@ -56,9 +56,13 @@ export default {
     async getData() {
       this.refreshing = true;
       const res = await apiService.getPosts();
+      const banner = await apiService.getBanners();
       this.refreshing = false;
       if (res && res.success) {
         this.posts = res.data;
+      }
+      if (banner && banner.success && banner.data && banner.data[0]) {
+        this.banners = JSON.parse(banner.data[0].data);
       }
     },
 
@@ -88,12 +92,5 @@ export default {
   right: 20px;
   border-radius: 50%;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-}
-.my-swipe .van-swipe-item {
-  color: #fff;
-  font-size: 20px;
-  line-height: 150px;
-  text-align: center;
-  background-color: #39a9ed;
 }
 </style>>

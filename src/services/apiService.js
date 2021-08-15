@@ -54,6 +54,10 @@ const ApiService = {
     async getFoods() {
         return HttpService.get(`${apiConfig.baseUrl}/api/products`);
     },
+    
+    async getBanners() {
+        return HttpService.get(`${apiConfig.baseUrl}/api/settings?type=banner`);
+    },
 }
 
 export default ApiService;
