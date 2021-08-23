@@ -66,24 +66,25 @@ export default {
       }
     },
 
+    // 发帖时如果有图片，会对图片进行统一上传
     async doUpload() {
-      const file = this.fileList[this.uploadIndex];
+      const file = this.fileList[this.uploadIndex]; // 依次获取选择的图片
       if (file) {
         file.status = "uploading";
         file.message = "上传中...";
-        const form = new FormData();
+        const form = new FormData(); // 使用 FormData 来上传图片
         form.append(
           "file",
           file.file,
-          new Date().getTime() + "." + file.file.type.split("/")[1]
+          new Date().getTime() + "." + file.file.type.split("/")[1] // 为文件指定一个名字
         );
         const res = await apiService.uploadImage(form);
         this.uploadIndex++;
         if (res && res.success) {
-          this.uploadedImages.push(res.data.url);
+          this.uploadedImages.push(res.data.url); // 上传完成将图片追加到预览
           file.status = "done ";
           file.message = "上传完成";
-          await this.doUpload();
+          await this.doUpload(); // 再次调用图片上传，直到上传完成
         } else {
           file.status = "failed";
           file.message = "上传失败";
